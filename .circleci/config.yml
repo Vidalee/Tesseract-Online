@@ -10,6 +10,7 @@ jobs:
     steps:
       - checkout
       - run: find .
+      - run: cd ./Tesseract-Online
       - run: dotnet restore
       - run: dotnet build
       - run: dotnet test --no-build Build.Tests
