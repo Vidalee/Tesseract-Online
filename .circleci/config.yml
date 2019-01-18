@@ -1,9 +1,0 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: aparker/circleci-dotnet-mono:latest
-    steps:
-      - checkout
-      - run: msbuild /t:Restore
-      - run: msbuild /t:Build
