@@ -13,7 +13,7 @@ namespace Tesseract_Online
         {
             Logger.Init();
             Thread.Sleep(3000);
-            //Logger.INFO("test");
+            Logger.INFO("test");
             Console.ReadKey();
         }
     }
