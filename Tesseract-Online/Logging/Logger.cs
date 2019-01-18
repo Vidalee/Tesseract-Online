@@ -34,6 +34,26 @@ namespace Tesseract_Online
             discordBot.LogMessage(message);
         }
 
+        public static void ERROR(string message)
+        {
+            ConsoleColor temp = Console.ForegroundColor;
+            Console.ForegroundColor = ERROR_COLOR;
+            message = GetTimestamp(DateTime.Now) + "-[INFO]: " + message;
+            Console.WriteLine(message);
+            Console.ForegroundColor = temp;
+            discordBot.LogMessage(message);
+        }
+
+        public static void WARNING(string message)
+        {
+            ConsoleColor temp = Console.ForegroundColor;
+            Console.ForegroundColor = WARNING_COLOR;
+            message = GetTimestamp(DateTime.Now) + "-[INFO]: " + message;
+            Console.WriteLine(message);
+            Console.ForegroundColor = temp;
+            discordBot.LogMessage(message);
+        }
+
         public static string GetTimestamp(this DateTime value)
         {
             return value.ToString("[yyyy/MM/dd-HH:mm:ss]");
