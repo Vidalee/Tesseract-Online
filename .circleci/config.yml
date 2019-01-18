@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: microsoft/dotnet-framework
+      - image: microsoft/dotnet-framework:4.6.1-runtime-windowsservercore-ltsc2016
     steps:
       - checkout
       - run: find .
