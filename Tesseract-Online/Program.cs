@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tesseract_Online
@@ -10,6 +11,10 @@ namespace Tesseract_Online
     {
         static void Main(string[] args)
         {
+            Logger.Init();
+            Thread.Sleep(3000);
+            //Logger.INFO("test");
+            Console.ReadKey();
         }
     }
 }
