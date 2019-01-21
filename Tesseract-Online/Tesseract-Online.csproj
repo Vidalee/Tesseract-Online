@@ -137,8 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiscordBot\DiscordBot.cs" />
-    <Compile Include="DiscordBot\IniFile.cs" />
-    <Compile Include="DiscordBot\MakeIni.cs" />
+    <Compile Include="DiscordBot\TConfig.cs" />
+    <Compile Include="DiscordBot\MakeTConfig.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

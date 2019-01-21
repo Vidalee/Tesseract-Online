@@ -24,7 +24,7 @@ namespace Tesseract_Online
         
         private async Task RunBotAsync() {
             MakeIni.Create();
-            botIni = new IniFile("Bot_Settings.ini");
+            botIni = new IniFile("Bot_Settings.tcfg");
 
             var cfg = new DiscordConfiguration
             {
