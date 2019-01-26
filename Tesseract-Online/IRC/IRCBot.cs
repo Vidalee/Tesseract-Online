@@ -12,10 +12,10 @@ namespace Tesseract_Online
     class IRCBot
     {
         // make an instance of the high-level API
-        public  IrcClient irc = new IrcClient();
+        public static IrcClient irc = new IrcClient();
 
         // this method we will use to analyse queries (also known as private messages)
-        public  void OnQueryMessage(object sender, IrcEventArgs e)
+        public void OnQueryMessage(object sender, IrcEventArgs e)
         {
             switch (e.Data.MessageArray[0])
             {
@@ -121,11 +121,11 @@ namespace Tesseract_Online
             {
                 // here we logon and register our nickname and so on 
                 irc.Login("Xelia", "Xelia", 1, "Xelia", "Oui donc");
-                
+                irc.RfcOper("", "");
                 // join the channel
                 irc.RfcJoin(channel);
                 irc.RfcJoin("#admin");
-
+                new IRCAuth(irc);
                 // spawn a new thread to read the stdin of the console, this we use
                 // for reading IRC commands from the keyboard while the IRC connection
                 // stays in its own thread

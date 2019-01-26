@@ -152,6 +152,7 @@
     <Compile Include="DiscordBot\TConfig.cs" />
     <Compile Include="DiscordBot\MakeTConfig.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="IRC\IRCAuth.cs" />
     <Compile Include="IRC\IRCBot.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Program.cs" />

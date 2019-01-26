@@ -31,5 +31,12 @@ namespace Tesseract_Online
                 return true;
             return false;
         }
+
+        public static bool TryGetUser(string username, out UserDTO user)
+        {
+            Cursor<UserDTO> userCursor = R.Db(DB).Table("users").Filter(doc => doc["username"] == username).Run<UserDTO>(c);
+            user = userCursor.FirstOrDefault();
+            return user != null;
+        }
     }
 }
