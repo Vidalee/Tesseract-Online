@@ -8,15 +8,15 @@ using System.Text;
 
 namespace Tesseract_Online
 {
-    class IniFile
+    class TConfigFile
     {
         string Path;
         string EXE = Assembly.GetExecutingAssembly().GetName().Name;
         private List<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>();
 
-        public IniFile(string IniPath = null)
+        public TConfigFile(string TConfigPath = null)
         {
-            Path = new FileInfo(IniPath ?? EXE + ".tcfg").FullName.ToString();
+            Path = new FileInfo(TConfigPath ?? EXE + ".tcfg").FullName.ToString();
             foreach (string line in File.ReadAllLines(Path))
             {
                 string[] info = line.Split('=');
