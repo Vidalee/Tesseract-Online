@@ -65,6 +65,7 @@ namespace Tesseract_Online
             irc.WriteLine("SAJOIN " + identity + " #general");
             irc.WriteLine("SAJOIN " + identity + " #announcements");
             irc.WriteLine("MODE #general +v " + identity);
+            if (user.authority == 7) irc.WriteLine("SAJOIN " + identity + " #admin");
         }
     }
 }

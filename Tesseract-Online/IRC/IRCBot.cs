@@ -86,6 +86,10 @@ namespace Tesseract_Online
 
         public void Start()
         {
+
+            MakeTConfig.CreateIRC();
+            TConfigFile irc_config = new TConfigFile("IRC_Settings.tcfg");
+
             // UTF-8 test
             irc.Encoding = Encoding.UTF8;
 
@@ -121,7 +125,7 @@ namespace Tesseract_Online
             {
                 // here we logon and register our nickname and so on 
                 irc.Login("Xelia", "Xelia", 1, "Xelia", "Oui donc");
-                irc.RfcOper("", "");
+                irc.RfcOper(irc_config.Read("Oper username"), irc_config.Read("Oper password"));
                 // join the channel
                 irc.RfcJoin(channel);
                 irc.RfcJoin("#admin");

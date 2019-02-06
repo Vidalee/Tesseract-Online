@@ -13,7 +13,7 @@ namespace Tesseract_Online
     {
         private readonly string pf = "!";
         private DiscordClient Client { get; set; }
-        private IniFile botIni;
+        private TConfigFile botCgf;
         private DiscordChannel loggingChannel;
         private bool enableLogging = false;
         public DiscordBot()
@@ -23,12 +23,12 @@ namespace Tesseract_Online
         }
         
         private async Task RunBotAsync() {
-            MakeIni.Create();
-            botIni = new IniFile("Bot_Settings.tcfg");
+            MakeTConfig.CreateDiscord();
+            botCgf = new TConfigFile("Bot_Settings.tcfg");
 
             var cfg = new DiscordConfiguration
             {
-                Token = botIni.Read("Bot Token"),
+                Token = botCgf.Read("Bot Token"),
                 TokenType = TokenType.Bot,
 
                 AutoReconnect = true,
@@ -49,10 +49,10 @@ namespace Tesseract_Online
             Console.WriteLine("Connected!");
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "ExampleBot", "Client is ready to process events.", DateTime.Now);
             DiscordGame game = new DiscordGame();
-            game.Name = botIni.Read("Status");
+            game.Name = botCgf.Read("Status");
             game.StartTimestamp = DateTimeOffset.Now;
             Client.UpdateStatusAsync(game);
-            loggingChannel = Client.GetChannelAsync(ulong.Parse(botIni.Read("Channel"))).Result;
+            loggingChannel = Client.GetChannelAsync(ulong.Parse(botCgf.Read("Channel"))).Result;
             enableLogging = true;
             return Task.CompletedTask;
         }
