@@ -4,10 +4,11 @@ using System.Linq;
 namespace Tesseract_Online
 {
   
-    class UserDTO
+    public class UserDTO
     {
         public string username;
         public string password;
         public int authority;
+        public string IP;
     }
 }
