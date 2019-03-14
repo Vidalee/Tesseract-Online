@@ -16,7 +16,7 @@ namespace Tesseract_Online
             if (Database.TryAuthentificate(args[0], args[1], out user))
             {
                 Console.WriteLine("Joueur " + user.username + " connecté !");
-                //user.IP = ip;
+                user.endpoint = ep;
                 UDPSocket.AddUser(ep, user);
                 UDPSocket.SendTo(ep, "Correct password");
             }

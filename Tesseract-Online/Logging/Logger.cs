@@ -39,7 +39,7 @@ namespace Tesseract_Online
         {
             ConsoleColor temp = Console.ForegroundColor;
             Console.ForegroundColor = ERROR_COLOR;
-            message = GetTimestamp(DateTime.Now) + "-[INFO]: " + message;
+            message = GetTimestamp(DateTime.Now) + "-[ERROR]: " + message;
             Console.WriteLine(message);
             Console.ForegroundColor = temp;
             discordBot.LogMessage(message);
@@ -49,7 +49,7 @@ namespace Tesseract_Online
         {
             ConsoleColor temp = Console.ForegroundColor;
             Console.ForegroundColor = WARNING_COLOR;
-            message = GetTimestamp(DateTime.Now) + "-[INFO]: " + message;
+            message = GetTimestamp(DateTime.Now) + "-[WARNING]: " + message;
             Console.WriteLine(message);
             Console.ForegroundColor = temp;
             discordBot.LogMessage(message);
