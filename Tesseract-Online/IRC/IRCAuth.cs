@@ -47,7 +47,7 @@ namespace Tesseract_Online
                     UserDTO user;
                     if (Database.TryAuthentificate(e.Data.Nick, password, out user))
                     {
-                        irc.SendMessage(SendType.Message, e.Data.Nick, ">Correct password!");
+                        irc.SendMessage(SendType.Message, e.Data.Nick, "Successfully connected.");
                         Logger.IRC(e.Data.Nick + " Just Connected!");
                         ManageJoin(user, e.Data.Nick);
                     }

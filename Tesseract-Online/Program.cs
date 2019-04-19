@@ -25,11 +25,17 @@ namespace Tesseract_Online
             UserDTO user;
             Console.WriteLine(Database.TryAuthentificate("oui", "ouioui", out user));
             */
-
-            s.Server("127.0.0.1", 27000);
+            Console.WriteLine("IP Adress of the server?");
+            s.Server(Console.ReadLine(), 27000);
             UDPSocket.AddCommand("CONNECT", new Connect());
             UDPSocket.AddCommand("JOIN", new Join());
             UDPSocket.AddCommand("LIST", new List());
+            UDPSocket.AddCommand("PING", new Ping());
+            UDPSocket.AddCommand("QUIT", new Quit());
+            UDPSocket.AddCommand("CREATE", new Create());
+
+
+
             Console.ReadKey();
 
 

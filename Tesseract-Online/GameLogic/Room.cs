@@ -8,17 +8,34 @@ namespace Tesseract_Online
 {
     class Room
     {
-        private List<UserDTO> users = new List<UserDTO>();
+        public List<UserDTO> users = new List<UserDTO>();
         public string name;
-        public Room()
+        public string code;
+        public int seed;
+        public Room(string name)
         {
-            name = Utils.RandomString(6);
+            this.name = name;
+            code = Utils.RandomString(6);
         }
 
         public void AddPlayer(UserDTO user)
         {
             users.Add(user);
-            IRCUtils.MakeJoin(user, name);
+            IRCUtils.MakeJoin(user, code);
+        }
+
+        public void RemovePlayer(UserDTO user)
+        {
+            if (users.Where(u => u.username == user.username).Count() > 0)
+            {
+                users.Remove(users.Where(u => u.username == user.username).First());
+                IRCUtils.MakeQuit(user, code);
+            }
+        }
+
+        public string ToUDPString()
+        {
+            return code + " " + users.Count + " " + string.Join(" ", users.Select(u => u.username)) + " " + name;
         }
     }
 }

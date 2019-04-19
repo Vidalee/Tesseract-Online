@@ -15,19 +15,19 @@ namespace Tesseract_Online
 
         }
 
-        public void AddRoom()
+        public void AddRoom(Room r)
         {
-            rooms.Add(new Room());
+            rooms.Add(r);
         }
 
-        public string ListRooms()
+        public List<string> ListRooms()
         {
-            string res = "";
+            List<string> list = new List<string>();
             foreach(Room room in rooms)
             {
-                res += room.name + " ";
+                list.Add(room.ToUDPString());
             }
-            return res;
+            return list;
         }
     }
 }

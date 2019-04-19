@@ -12,18 +12,20 @@ namespace Tesseract_Online
     {
         public override void Trigger(string[] args, EndPoint ep, UserDTO user = null)
         {
+            Console.WriteLine(args.Length);
+            if (args.Length < 2) return;
             //CONNECT user pass
             if (Database.TryAuthentificate(args[0], args[1], out user))
             {
                 Console.WriteLine("Joueur " + user.username + " connecté !");
                 user.endpoint = ep;
                 UDPSocket.AddUser(ep, user);
-                UDPSocket.SendTo(ep, "Correct password");
+                UDPSocket.SendTo(ep, "CPASS");
             }
             else
             {
                 Console.WriteLine("Mauvais mot de passe pour " + args[0]);
-                UDPSocket.SendTo(ep, "Wrong password");
+                UDPSocket.SendTo(ep, "WPASS");
             }
         }
     }

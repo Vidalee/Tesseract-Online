@@ -27,7 +27,7 @@ namespace Tesseract_Online
             
             Cursor<UserDTO> userCursor = R.Db(DB).Table("users").Filter(doc => doc["username"] == username).Run<UserDTO>(c);
             user = userCursor.FirstOrDefault();
-            if (user != null && user.password == password)
+            if (user != null && user.password == password.ToUpper())
                 return true;
             return false;
         }

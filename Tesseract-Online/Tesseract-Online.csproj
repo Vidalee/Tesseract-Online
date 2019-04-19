@@ -165,6 +165,9 @@
     <Compile Include="RethinkDB\Database.cs" />
     <Compile Include="UDP\Command.cs" />
     <Compile Include="UDP\Commands\Connect.cs" />
+    <Compile Include="UDP\Commands\Create.cs" />
+    <Compile Include="UDP\Commands\Quit.cs" />
+    <Compile Include="UDP\Commands\Ping.cs" />
     <Compile Include="UDP\Commands\List.cs" />
     <Compile Include="UDP\Commands\Join.cs" />
     <Compile Include="UDP\UDPSocket.cs" />

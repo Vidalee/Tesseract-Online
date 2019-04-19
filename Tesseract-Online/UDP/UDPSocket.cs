@@ -25,7 +25,8 @@ namespace Tesseract_Online
 
         public static void AddUser(EndPoint ep, UserDTO user)
         {
-            users.Add(ep, user);
+            if(!users.ContainsKey(ep))
+                users.Add(ep, user);
         }
 
         public static void AddCommand(string command, Command cmd)
@@ -41,14 +42,15 @@ namespace Tesseract_Online
             {
                 State so = (State)ar.AsyncState;
                 int bytes = _socket.EndSend(ar);
-                Console.WriteLine("SEND: {0}, {1}", bytes, msg);
+                Console.WriteLine("SEND {0}: {1}, {2}",ep.ToString(), bytes, msg);
             }, state);
         }
 
-        public void Server(string address, int port)
+        public void Server(string ip, int port)
         {
             _socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
-            _socket.Bind(new IPEndPoint(IPAddress.Parse(address), port));
+            _socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
+            Console.WriteLine("NOW LISTENING ON " + _socket.LocalEndPoint.ToString());
             Receive();
         }
 
@@ -81,10 +83,13 @@ namespace Tesseract_Online
                 string[] msg = Encoding.ASCII.GetString(so.buffer, 0, bytes).Split(' ');
 
                 string trigger = msg[0];
-                if (users.ContainsKey(epFrom))
-                    commands[trigger].Trigger(msg.Skip(1).ToArray(), epFrom, users[epFrom]);
-                else
-                    commands[trigger].Trigger(msg.Skip(1).ToArray(), epFrom);
+                if (commands.ContainsKey(trigger))
+                {
+                    if (users.ContainsKey(epFrom))
+                        commands[trigger].Trigger(msg.Skip(1).ToArray(), epFrom, users[epFrom]);
+                    else
+                        commands[trigger].Trigger(msg.Skip(1).ToArray(), epFrom);
+                }
 
             }, state);
 

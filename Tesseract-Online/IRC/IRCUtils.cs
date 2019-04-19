@@ -12,5 +12,10 @@ namespace Tesseract_Online
         {
             IRCBot.irc.WriteLine("SAJOIN " + user.username + " #" + channel);
         }
+
+        public static void MakeQuit(UserDTO user, string channel)
+        {
+            IRCBot.irc.WriteLine("SAPART " + user.username + " #" + channel);
+        }
     }
 }
