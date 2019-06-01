@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tesseract_Online
 {
@@ -17,8 +12,8 @@ namespace Tesseract_Online
                 UDPSocket.SendTo(ep, "You are not authenticated !");
                 return;
             }
-            if(args[0] != "")
-                Main.rm.rooms.Where(r => r.code == args[0]).First().AddPlayer(user);
+            if (args[0] != "") Main.rm.rooms.First().AddPlayer(user);
+                //Main.rm.rooms.Where(r => r.code == args[0]).First().AddPlayer(user);
         }
     }
 }

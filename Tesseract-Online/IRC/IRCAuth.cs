@@ -43,9 +43,15 @@ namespace Tesseract_Online
             switch (e.Data.MessageArray[0].ToLower())
             {
                 case "identify":
-                    string password = e.Data.MessageArray[1];
-                    UserDTO user;
-                    if (Database.TryAuthentificate(e.Data.Nick, password, out user))
+                    string password = sha256(e.Data.MessageArray[1] + "nyancat");
+                    UserDTO user = new UserDTO()
+                    {
+                        authority = 0,
+                        username = e.Data.Nick
+
+                    };
+                    if(true)
+                    //if (Database.TryAuthentificate(e.Data.Nick, password, out user))
                     {
                         irc.SendMessage(SendType.Message, e.Data.Nick, "Successfully connected.");
                         Logger.IRC(e.Data.Nick + " Just Connected!");
@@ -59,8 +65,21 @@ namespace Tesseract_Online
             }
         }
 
+        string sha256(string password)
+        {
+            var crypt = new System.Security.Cryptography.SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
+        }
+
         private void ManageJoin(UserDTO user, string identity)
         {
+            Database.SetOnline(identity, true);
             //TODO: load the channels from a config file
             irc.WriteLine("SAJOIN " + identity + " #general");
             irc.WriteLine("SAJOIN " + identity + " #announcements");

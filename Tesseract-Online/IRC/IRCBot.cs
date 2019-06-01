@@ -71,13 +71,19 @@ namespace Tesseract_Online
         }
 
         // this method handles when we receive "ERROR" from the IRC server
-        public  void OnError(object sender, ErrorEventArgs e)
+        public void OnError(object sender, ErrorEventArgs e)
         {
             Logger.ERROR("Error: " + e.ErrorMessage);
         }
 
+        //When an user disconnects.
+        public void OnQuit(object sender, QuitEventArgs e)
+        {
+                Database.SetOnline(e.Who, false);
+        }
+
         // this method will get all IRC messages
-        public  void OnRawMessage(object sender, IrcEventArgs e)
+        public void OnRawMessage(object sender, IrcEventArgs e)
         {
             //Logger.IRC("Received: " + e.Data.RawMessage);
 
@@ -104,6 +110,8 @@ namespace Tesseract_Online
             irc.OnQueryMessage += new IrcEventHandler(OnQueryMessage);
             irc.OnError += new ErrorEventHandler(OnError);
             irc.OnRawMessage += new IrcEventHandler(OnRawMessage);
+            irc.OnQuit += new QuitEventHandler(OnQuit);
+
 
             string[] serverlist;
             // the server we want to connect to, could be also a simple string
@@ -130,10 +138,6 @@ namespace Tesseract_Online
                 irc.RfcJoin(channel);
                 irc.RfcJoin("#admin");
                 new IRCAuth(irc);
-                // spawn a new thread to read the stdin of the console, this we use
-                // for reading IRC commands from the keyboard while the IRC connection
-                // stays in its own thread
-                //new Thread(new ThreadStart(ReadCommands)).Start();
 
                 // here we tell the IRC API to go into a receive mode, all events
                 // will be triggered by _this_ thread (main thread in this case)

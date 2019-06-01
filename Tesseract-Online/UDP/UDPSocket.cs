@@ -29,7 +29,7 @@ namespace Tesseract_Online
                 users.Add(ep, user);
         }
 
-        public static void AddCommand(string command, Command cmd)
+        public void AddCommand(string command, Command cmd)
         {
             commands.Add(command, cmd);
         }
@@ -37,13 +37,26 @@ namespace Tesseract_Online
         public static void SendTo(EndPoint ep, string msg)
         {
             byte[] data = Encoding.ASCII.GetBytes(msg);
-            //IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ip), 27000); 
-            _socket.BeginSendTo(data, 0, data.Length, SocketFlags.None, ep, (ar) =>
+            //IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ip), 27000);
+            try
             {
-                State so = (State)ar.AsyncState;
-                int bytes = _socket.EndSend(ar);
-                Console.WriteLine("SEND {0}: {1}, {2}",ep.ToString(), bytes, msg);
-            }, state);
+                _socket.BeginSendTo(data, 0, data.Length, SocketFlags.None, ep, (ar) =>
+                {
+                    State so = (State)ar.AsyncState;
+                    int bytes = _socket.EndSend(ar);
+                    Console.WriteLine("SEND {0}: {1}, {2}", ep.ToString(), bytes, msg);
+                }, state);
+            }
+            catch
+            {
+                /*
+                   Console.WriteLine("dead client :(");
+                if (Main.rm.rooms.Where(r => r.users.Where(u => u.endpoint == ep).Count() > 0).Count() > 0)
+                {
+                    Main.rm.rooms.Where(r => r.users.Where(u => u.endpoint == ep).Count() > 0).First().DeadClient(ep);
+                }
+                */
+            }
         }
 
         public void Server(string ip, int port)

@@ -12,5 +12,6 @@ namespace Tesseract_Online
         public string password;
         public int authority;
         public EndPoint endpoint;
+        public int gameId;
     }
 }

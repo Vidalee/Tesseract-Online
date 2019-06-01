@@ -27,12 +27,14 @@ namespace Tesseract_Online
             */
             Console.WriteLine("IP Adress of the server?");
             s.Server(Console.ReadLine(), 27000);
-            UDPSocket.AddCommand("CONNECT", new Connect());
-            UDPSocket.AddCommand("JOIN", new Join());
-            UDPSocket.AddCommand("LIST", new List());
-            UDPSocket.AddCommand("PING", new Ping());
-            UDPSocket.AddCommand("QUIT", new Quit());
-            UDPSocket.AddCommand("CREATE", new Create());
+            s.AddCommand("CONNECT", new Connect());
+            s.AddCommand("JOIN", new Join());
+            s.AddCommand("LIST", new List());
+            s.AddCommand("PING", new Ping());
+            s.AddCommand("QUIT", new Quit());
+            s.AddCommand("CREATE", new Create());
+            s.AddCommand("JINFO", new JInfo());
+            s.AddCommand("PINFO", new PInfo());
 
 
 

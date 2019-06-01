@@ -38,5 +38,10 @@ namespace Tesseract_Online
             user = userCursor.FirstOrDefault();
             return user != null;
         }
+
+        public static void SetOnline(string username, bool online)
+        {
+            R.Db(DB).Table("users").Filter(doc => doc["username"] == username).Update(new { online }).Run<UserDTO>(c);
+        }
     }
 }
