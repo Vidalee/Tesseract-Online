@@ -115,7 +115,7 @@ namespace Tesseract_Online
         {
             long stop = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
             long time = stop - start;
-            Database.SetScore(time, stop, GetUsername(0), GetUsername(1), GetUsername(2), GetUsername(3));
+            Database.SetScore(time, stop, GetUsername(0), GetUsername(1), GetUsername(2), GetUsername(3), seed);
         }
 
         private string GetUsername(int id)

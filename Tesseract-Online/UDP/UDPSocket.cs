@@ -44,22 +44,6 @@ namespace Tesseract_Online
             byte[] data = Encoding.ASCII.GetBytes(msg);
             Console.WriteLine("Sending back : " + msg);
             ns.Write(data, 0, data.Length);
-           /* //IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ip), 27000);
-            try
-            {
-                _socket.SendTo(data, 0, data.Length, SocketFlags.None, ep);
-                Console.WriteLine("send: " + msg);
-            }
-            catch
-            {
-                /*
-                   Console.WriteLine("dead client :(");
-                if (Main.rm.rooms.Where(r => r.users.Where(u => u.endpoint == ep).Count() > 0).Count() > 0)
-                {
-                    Main.rm.rooms.Where(r => r.users.Where(u => u.endpoint == ep).Count() > 0).First().DeadClient(ep);
-                }
-                */
-            //}
         }
 
         public void Server(string ip, int port)
@@ -80,11 +64,7 @@ namespace Tesseract_Online
                 listener.Stop();
                 Console.ReadLine();
             }).Start();
-
-
-            
         }
-
 
         private void ListenTo(TcpClient client)
         {
@@ -131,80 +111,6 @@ namespace Tesseract_Online
                     }
                 }
             }).Start();
-        }
-        public void Servera(string ip, int port)
-        {
-            _socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
-            _socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
-            Console.WriteLine("NOW LISTENING ON " + _socket.LocalEndPoint.ToString());
-            Receive();
-
-           
-
-            /*new Thread(() =>
-            {
-                while (true)
-                {
-                    if (ToUse.Count != 0)
-                    {
-                        Tuple<string, EndPoint> tuple = ToUse[0];
-                        ToUse.RemoveAll(s => s.Item1 == tuple.Item1);
-                        if (tuple.Item1 == last || tuple.Item1 == "JOIN")
-                        {
-                            Console.WriteLine("doublon !!");
-
-                        }
-                        else
-                        {
-                            last = tuple.Item1;
-                            Console.WriteLine("RECV: {0}: {1}", tuple.Item2.ToString(), tuple.Item1);
-
-                            string[] msg = tuple.Item1.Split(' ');
-
-                            string trigger = msg[0];
-                            if (commands.ContainsKey(trigger))
-                            {
-                                if (users.ContainsKey(epFrom))
-                                    commands[trigger].Trigger(msg.Skip(1).ToArray(), tuple.Item2, trigger, users[tuple.Item2]);
-                                else
-                                    commands[trigger].Trigger(msg.Skip(1).ToArray(), tuple.Item2, trigger);
-                            }
-                        }
-                    }
-                }
-            }).Start();*/
-
-        }
-
-        public void Client(string address, int port)
-        {
-            _socket.Connect(IPAddress.Parse(address), port);
-            Receive();
-        }
-
-        public void Send(string text)
-        {
-            Thread.Sleep(5);
-            byte[] data = Encoding.ASCII.GetBytes(text);
-            _socket.BeginSend(data, 0, data.Length, SocketFlags.None, (ar) =>
-            {
-                State so = (State)ar.AsyncState;
-                int bytes = _socket.EndSend(ar);
-                Console.WriteLine("SEND: {0}, {1}", bytes, text);
-            }, state);
-        }
-
-        private void Receive()
-        {
-            _socket.BeginReceiveFrom(state.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv = (ar) =>
-            {
-                State so = (State)ar.AsyncState;
-                int bytes = _socket.EndReceiveFrom(ar, ref epFrom);
-                _socket.BeginReceiveFrom(so.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv, so);
-                string t = Encoding.ASCII.GetString(so.buffer, 0, bytes);
-                ToUse.Add(new Tuple<string, EndPoint>(t, epFrom));
-            }, state);
-
         }
     }
 }

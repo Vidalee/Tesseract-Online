@@ -18,7 +18,7 @@ namespace Tesseract_Online
         public string u2 { get; set; }
         public string u3 { get; set; }
         public string u4 { get; set; }
-
+        public int seed { get; set; }
     }
 
     class Database
@@ -57,11 +57,11 @@ namespace Tesseract_Online
             R.Db(DB).Table("users").Filter(doc => doc["username"] == username).Update(new { online }).Run<UserDTO>(c);
         }
 
-        public static void SetScore(long time, long when, string u1, string u2, string u3, string u4)
+        public static void SetScore(long time, long when, string u1, string u2, string u3, string u4, int seed)
         {
             var arr = new[]
             {
-                new Score{time = time, when = when, u1 = u1, u2 = u2, u3 = u3, u4 = u4}
+                new Score{time = time, when = when, u1 = u1, u2 = u2, u3 = u3, u4 = u4, seed = seed}
             };
             R.Db(DB).Table("scores").Insert(arr).Run<UserDTO>(c);
         }
