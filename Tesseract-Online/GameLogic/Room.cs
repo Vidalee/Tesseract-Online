@@ -14,6 +14,7 @@ namespace Tesseract_Online
         public string name;
         public string code;
         public int seed;
+        long start = 0;
         public Room(string name)
         {
             this.name = name;
@@ -86,11 +87,17 @@ namespace Tesseract_Online
                 Thread.Sleep(4000);
                 StartGame();
             }
+            if (msg.Contains("STOP"))
+            {
+                StopGame();
+            }
         }
 
         private void StartGame()
         {
-            foreach(UserDTO u in users)
+            Console.WriteLine("Game started !");
+            start = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            foreach (UserDTO u in users)
             {
                 if (u.client == null) continue;
                 for (int i = 0; i < users.Count(); i++)
@@ -102,6 +109,20 @@ namespace Tesseract_Online
                     }
                 }
             }
+        }
+
+        private void StopGame()
+        {
+            long stop = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            long time = stop - start;
+            Database.SetScore(time, stop, GetUsername(0), GetUsername(1), GetUsername(2), GetUsername(3));
+        }
+
+        private string GetUsername(int id)
+        {
+            if (users.Count > id)
+                return users[id].username;
+            return "";
         }
     }
 }

@@ -92,35 +92,42 @@ namespace Tesseract_Online
             {
                 while (true)
                 {
-                    //---get the incoming data through a network stream---
-                    NetworkStream nwStream = client.GetStream();
-                    byte[] buffer = new byte[client.ReceiveBufferSize];
-
-                    //---read incoming stream---
-                    int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
-
-                    //---convert the data received into a string---
-                    string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                    if (dataReceived == "") continue;
-                    //ToUse.Add(new Tuple<string, EndPoint>(dataReceived, client.Client.RemoteEndPoint));
-
-                    //---write back the text to the client---
-                    string[] d = dataReceived.Split(';');
-                    foreach (string m in d)
+                    try
                     {
-                        if (m == "") continue;
-                        Console.WriteLine("Received : " + m);
+                        //---get the incoming data through a network stream---
+                        NetworkStream nwStream = client.GetStream();
+                        byte[] buffer = new byte[client.ReceiveBufferSize];
 
-                        string[] msg = m.Split(' ');
+                        //---read incoming stream---
+                        int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
 
-                        string trigger = msg[0];
-                        if (commands.ContainsKey(trigger))
+                        //---convert the data received into a string---
+                        string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                        if (dataReceived == "") continue;
+                        //ToUse.Add(new Tuple<string, EndPoint>(dataReceived, client.Client.RemoteEndPoint));
+
+                        //---write back the text to the client---
+                        string[] d = dataReceived.Split(';');
+                        foreach (string m in d)
                         {
-                            if (users.ContainsKey(client.Client.RemoteEndPoint))
-                                commands[trigger].Trigger(msg.Skip(1).ToArray(), client.Client.RemoteEndPoint, trigger, client, users[client.Client.RemoteEndPoint]);
-                            else
-                                commands[trigger].Trigger(msg.Skip(1).ToArray(), client.Client.RemoteEndPoint, trigger, client);
+                            if (m == "") continue;
+                            Console.WriteLine("Received : " + m);
+
+                            string[] msg = m.Split(' ');
+
+                            string trigger = msg[0];
+                            if (commands.ContainsKey(trigger))
+                            {
+                                if (users.ContainsKey(client.Client.RemoteEndPoint))
+                                    commands[trigger].Trigger(msg.Skip(1).ToArray(), client.Client.RemoteEndPoint, trigger, client, users[client.Client.RemoteEndPoint]);
+                                else
+                                    commands[trigger].Trigger(msg.Skip(1).ToArray(), client.Client.RemoteEndPoint, trigger, client);
+                            }
                         }
+                    }
+                    catch
+                    {
+
                     }
                 }
             }).Start();
