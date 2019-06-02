@@ -10,9 +10,9 @@ namespace Tesseract_Online
 {
     class Ping : Command
     {
-        public override void Trigger(string[] args, EndPoint ep, UserDTO user = null)
-        {  
-            UDPSocket.SendTo(ep, "PONG");
+        public override void Trigger(string[] args, EndPoint ep, string trigger, TcpClient ns, UserDTO user = null)
+        {
+            UDPSocket.SendTo(ns, "PONG");
         }
     }
 }

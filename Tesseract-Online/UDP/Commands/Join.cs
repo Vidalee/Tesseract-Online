@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 
 namespace Tesseract_Online
 {
     class Join : Command
     {
-        public override void Trigger(string[] args, EndPoint ep, UserDTO user = null)
+        public override void Trigger(string[] args, EndPoint ep, string trigger, TcpClient ns, UserDTO user = null)
         {
             if (user == null)
             {
-                UDPSocket.SendTo(ep, "You are not authenticated !");
+                UDPSocket.SendTo(ns, "You are not authenticated !");
                 return;
             }
             if (args[0] != "") Main.rm.rooms.First().AddPlayer(user);

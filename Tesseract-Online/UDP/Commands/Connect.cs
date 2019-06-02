@@ -10,7 +10,7 @@ namespace Tesseract_Online
 {
     class Connect : Command
     {
-        public override void Trigger(string[] args, EndPoint ep, UserDTO user = null)
+        public override void Trigger(string[] args, EndPoint ep, string trigger, TcpClient ns, UserDTO user = null)
         {
             Console.WriteLine(args.Length);
             if (args.Length < 2) return;
@@ -19,13 +19,14 @@ namespace Tesseract_Online
             {
                 Console.WriteLine("Joueur " + user.username + " connecté !");
                 user.endpoint = ep;
+                user.client = ns;
                 UDPSocket.AddUser(ep, user);
-                UDPSocket.SendTo(ep, "CPASS");
+                UDPSocket.SendTo(ns, "CPASS");
             }
             else
             {
                 Console.WriteLine("Mauvais mot de passe pour " + args[0]);
-                UDPSocket.SendTo(ep, "WPASS");
+                UDPSocket.SendTo(ns, "WPASS");
             }
         }
 

@@ -25,8 +25,7 @@ namespace Tesseract_Online
             UserDTO user;
             Console.WriteLine(Database.TryAuthentificate("oui", "ouioui", out user));
             */
-            Console.WriteLine("IP Adress of the server?");
-            s.Server(Console.ReadLine(), 27000);
+            
             s.AddCommand("CONNECT", new Connect());
             s.AddCommand("JOIN", new Join());
             s.AddCommand("LIST", new List());
@@ -36,7 +35,7 @@ namespace Tesseract_Online
             s.AddCommand("JINFO", new JInfo());
             s.AddCommand("PINFO", new PInfo());
 
-
+            s.Server("", 27000);
 
             Console.ReadKey();
 

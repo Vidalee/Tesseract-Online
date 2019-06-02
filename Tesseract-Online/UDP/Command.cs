@@ -10,6 +10,6 @@ namespace Tesseract_Online
 {
     public abstract class Command
     {
-        public abstract void Trigger(string[] args, EndPoint ep, UserDTO user = null);
+        public abstract void Trigger(string[] args, EndPoint ep, string trigger, TcpClient ns, UserDTO user = null);
     }
 }

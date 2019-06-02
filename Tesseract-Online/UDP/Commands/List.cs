@@ -11,18 +11,19 @@ namespace Tesseract_Online
 {
     class List : Command
     {
-        public override void Trigger(string[] args, EndPoint ep, UserDTO user = null)
+        public override void Trigger(string[] args, EndPoint ep, string trigger, TcpClient ns, UserDTO user = null)
         {
-            if(user == null)
+            if (user == null)
             {
-                UDPSocket.SendTo(ep, "You are not authenticated !");
+                UDPSocket.SendTo(ns, "You are not authenticated !");
                 return;
             }
-            Thread.Sleep(50);
-            foreach (string rinfo in Main.rm.ListRooms())
+            if (args.Length != 0) return;
+            List<string> list = Main.rm.ListRooms();
+            foreach (string rinfo in list)
             {
-                UDPSocket.SendTo(ep, "RINFO " + rinfo);
-                Thread.Sleep(50);
+                UDPSocket.SendTo(ns, "RINFO " + rinfo);
+                Thread.Sleep(75);
             }
         }
     }

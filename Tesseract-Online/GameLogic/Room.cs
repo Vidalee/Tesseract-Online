@@ -25,15 +25,15 @@ namespace Tesseract_Online
             users.RemoveAll(u => u.username == user.username);
             user.gameId = users.Count() + 1;
             users.Add(user);
-            UDPSocket.SendTo(user.endpoint, "SET seed " + seed);
+            UDPSocket.SendTo(user.client, "SET seed " + seed);
             Thread.Sleep(25);
             UpdateIds();
             Broadcast("SPAWN " + users.Count(), user);
             for(int i =0; i < users.Count(); i++)
             {
-                if (users[i].endpoint != null)
+                if (users[i].client != null)
                 { 
-                    UDPSocket.SendTo(user.endpoint, "SPAWN " + (i + 1));
+                    UDPSocket.SendTo(user.client, "SPAWN " + (i + 1));
                     Thread.Sleep(25);
                 }
             }
@@ -51,7 +51,7 @@ namespace Tesseract_Online
             {
                 //Might be null if it's a fake user for demonstration purposes
                 if(users[i].endpoint != null)
-                    UDPSocket.SendTo(users[i].endpoint, "SET id " + (i + 1));
+                    UDPSocket.SendTo(users[i].client, "SET id " + (i + 1));
             }
         }
 
@@ -77,8 +77,31 @@ namespace Tesseract_Online
 
         public void Broadcast(string msg, UserDTO user)
         {
-            foreach(UserDTO u in users.Where(u => u.username != user.username))
-                UDPSocket.SendTo(u.endpoint, msg);
+            Thread.Sleep(10);
+            foreach (UserDTO u in users.Where(u => u.username != user.username))
+                if (u.client != null)
+                    UDPSocket.SendTo(u.client, msg);
+            if (msg.Contains("START"))
+            {
+                Thread.Sleep(4000);
+                StartGame();
+            }
+        }
+
+        private void StartGame()
+        {
+            foreach(UserDTO u in users)
+            {
+                if (u.client == null) continue;
+                for (int i = 0; i < users.Count(); i++)
+                {
+                    if (users[i].client != null)
+                    {
+                        UDPSocket.SendTo(u.client, "SPAWN " + (i + 1));
+                        Thread.Sleep(25);
+                    }
+                }
+            }
         }
     }
 }

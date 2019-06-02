@@ -14,6 +14,7 @@ namespace Tesseract_Online
         {
             Room r = new Room("Aventuriers only !!");
             r.users.Add(new UserDTO() { username = "Joueur_A" });
+
             r.seed = 777;
             rm.AddRoom(r);
 
